@@ -1,29 +1,42 @@
 package by.bsu.rabbitmq.controller;
 
-import org.apache.log4j.Logger;
+import by.bsu.rabbitmq.job.CustomJob;
+import by.bsu.rabbitmq.job.JobScheduler;
+import by.bsu.rabbitmq.model.CommentModel;
+import org.quartz.*;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.quartz.JobDetailFactoryBean;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 
-@RestController
+@Controller
 public class RabbitMQController {
+
     @Autowired
-    private RabbitTemplate template;
+    private SchedulerFactoryBean schedulerFactory;
 
     @RequestMapping("/")
-    String home() {
-        return "Empty mapping";
+    public String home(Model model) {
+        model.addAttribute("comment", new CommentModel());
+        return "comment";
     }
 
-    @PostMapping("/comment")
-    String emit() {
-        template.setExchange("exchange-example-3");
-        template.convertAndSend("Fanout message");
-        return "Emit to exchange-example-3";
+    @PostMapping (value = "/comment")
+    public String postAComment(@ModelAttribute("comment") CommentModel comment, Model model) throws SchedulerException {
+        Scheduler scheduler = schedulerFactory.getScheduler();
+        JobKey jobKey = JobKey.jobKey("customJob", "customJobGroup");
+        JobDetail jobDetail = scheduler.getJobDetail(jobKey);
+        jobDetail.getJobDataMap().put("comment", comment.getCommentContent());
+        scheduler.addJob(jobDetail, true);
+
+        scheduler.triggerJob(jobKey);
+
+        model.addAttribute("result", comment.getCommentContent());
+        return "comment";
     }
+
 }

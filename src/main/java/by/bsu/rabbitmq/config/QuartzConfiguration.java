@@ -13,10 +13,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
-import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Properties;
 
 import static org.quartz.DateBuilder.futureDate;

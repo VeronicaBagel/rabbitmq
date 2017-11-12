@@ -1,6 +1,5 @@
 package by.bsu.rabbitmq.config;
 
-import org.apache.log4j.Logger;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -9,11 +8,6 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @EnableRabbit
 @Configuration

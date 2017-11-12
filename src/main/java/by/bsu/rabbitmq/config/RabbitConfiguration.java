@@ -17,7 +17,7 @@ import java.util.Map;
 
 @EnableRabbit
 @Configuration
-public class AppConfiguration {
+public class RabbitConfiguration {
     @Bean
     public ConnectionFactory connectionFactory() {
         CachingConnectionFactory connectionFactory =
@@ -39,14 +39,8 @@ public class AppConfiguration {
 
     @Bean
     public Queue firstQueue() {
-        return new Queue("queue3");
+        return new Queue("messages");
     }
-
-    @Bean
-    public Queue secondQueue() {
-        return new Queue("queue4");
-    }
-
 
     @Bean
     public FanoutExchange fanoutExchange(){
@@ -57,11 +51,4 @@ public class AppConfiguration {
     public Binding firstBinding(){
         return BindingBuilder.bind(firstQueue()).to(fanoutExchange());
     }
-
-
-    @Bean
-    public Binding secondBinding(){
-        return BindingBuilder.bind(secondQueue()).to(fanoutExchange());
-    }
-
 }

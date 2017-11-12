@@ -1,6 +1,7 @@
 package by.bsu.rabbitmq.job;
 
 
+import by.bsu.rabbitmq.constant.ParameterConst;
 import org.quartz.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -11,21 +12,19 @@ import org.springframework.stereotype.Service;
 
 @Component
 public class CustomJob extends QuartzJobBean {
-
-    @Autowired
     private RabbitTemplate template;
-
-    public final String COMMENT = "<div style='font:20px;'><p>Awesome movie</p></div>";
+    @Autowired
+    public void setTemplate(RabbitTemplate template) {
+        this.template = template;
+    }
 
     @Override
     public void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         template.setExchange("fanout");
         JobDataMap dataMap = jobExecutionContext.getJobDetail().getJobDataMap();
-        String comment = dataMap.getString("comment");
+        String comment = dataMap.get(ParameterConst.PARAMETER_COMMENT).toString();
         template.convertAndSend(comment);
     }
 
-    public void setTemplate(RabbitTemplate template) {
-        this.template = template;
-    }
+
 }

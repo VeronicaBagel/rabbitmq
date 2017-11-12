@@ -23,8 +23,8 @@ public class CommentModel implements Serializable {
 
     @Override
     public String toString() {
-        return "CommentModel{" +
-                "commentContent='" + commentContent + '\'' +
+        return '{' +
+                "'commentContent':'" + commentContent + "'" +
                 '}';
     }
 }

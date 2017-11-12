@@ -10,7 +10,7 @@
 </head>
 
 <body>
-<form:form method="post" modelAttribute="comment" action="comment">
+<form:form method="post" commandName="commentForm" action="comment">
 
     <form:label path="commentContent">Comment: </form:label>
     <form:input path="commentContent" name="commentContent" id="commentContent" placeholder="Say what's on your mind" />
@@ -19,13 +19,6 @@
 
 
 </form:form>
-
-${result}
-<c:choose>
-    <c:when test="${not empty result}">
-        Thank you for leaving a comment!
-    </c:when>
-</c:choose>
 
 </body>
 

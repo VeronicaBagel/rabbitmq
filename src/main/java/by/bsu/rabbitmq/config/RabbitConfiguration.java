@@ -22,12 +22,10 @@ public class RabbitConfiguration {
 
     @Bean
     public ConnectionFactory connectionFactory() {
-//        CachingConnectionFactory connectionFactory =
-//                new CachingConnectionFactory(rabbitMQPropertiesAsAWhole().getProperty("rabbitmq.vmware.localhost"));
-//        connectionFactory.setUsername(rabbitMQPropertiesAsAWhole().getProperty("rabbitmq.username"));
-//        connectionFactory.setPassword(rabbitMQPropertiesAsAWhole().getProperty("rabbitmq.password"));
         CachingConnectionFactory connectionFactory =
-                new CachingConnectionFactory("localhost");
+                new CachingConnectionFactory(rabbitMQPropertiesAsAWhole().getProperty("rabbitmq.vmware.localhost"));
+        connectionFactory.setUsername(rabbitMQPropertiesAsAWhole().getProperty("rabbitmq.username"));
+        connectionFactory.setPassword(rabbitMQPropertiesAsAWhole().getProperty("rabbitmq.password"));
         return connectionFactory;
     }
 

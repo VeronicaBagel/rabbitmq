@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 
-
 @Controller
 public class RabbitMQController {
     private SchedulerFactoryBean schedulerFactory;
@@ -40,12 +39,12 @@ public class RabbitMQController {
     private CommentModel processedResult = new CommentModel();
 
     @RequestMapping("/")
-    public ModelAndView  home(Model model) {
+    public ModelAndView  home() {
         return new ModelAndView("comment", "commentForm", new CommentModel());
     }
 
     @PostMapping (value = "/comment")
-    public String postAComment(@ModelAttribute("commentForm") CommentModel comment, Model model) throws SchedulerException {
+    public String postAComment(@ModelAttribute("commentForm") CommentModel comment) throws SchedulerException {
         Scheduler scheduler = schedulerFactory.getScheduler();
         jobDetail.getJobDataMap().put(ParameterConst.PARAMETER_COMMENT, comment);
         scheduler.scheduleJob(jobDetail, simpleTrigger);
@@ -53,7 +52,7 @@ public class RabbitMQController {
     }
 
     @PostMapping (value="/result")
-    public void catchResultResponse(@RequestBody String request, Model model) throws IOException {
+    public void catchResultResponse(@RequestBody String request) throws IOException {
         CommentModel result = JsonTransformationsUtil.parseStringToCommentModel(request);
         processedResult.setCommentContent(result.getCommentContent());
     }

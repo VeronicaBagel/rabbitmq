@@ -72,7 +72,7 @@ public class QuartzConfiguration {
         JobDetail job = newJob(CustomJob.class)
                 .withIdentity(quartzPropertiesAsAWhole().getProperty("quartz.manuallyTriggeredJobName"),
                         quartzPropertiesAsAWhole().getProperty("quartz.manuallyTriggeredJobGroupName"))
-                .storeDurably()
+                .storeDurably(false)
                 .build();
         return job;
     }
@@ -84,6 +84,7 @@ public class QuartzConfiguration {
                 .forJob(JobKey
                         .jobKey(quartzPropertiesAsAWhole().getProperty("quartz.manuallyTriggeredJobName"),
                                 quartzPropertiesAsAWhole().getProperty("quartz.manuallyTriggeredJobGroupName")))
+                .withIdentity("simpleTrigger", "triggerGroup")
                 .build();
         return simpleTrigger;
     }

@@ -96,9 +96,7 @@ public class QuartzConfiguration {
         return cronTriggerFactoryBean;
     }
 
-
-
-    @Bean
+    @Bean (name = "quartzProperties")
     public Properties quartzPropertiesAsAWhole() {
         PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
         propertiesFactoryBean.setLocation(new ClassPathResource("quartz.properties"));
@@ -114,4 +112,6 @@ public class QuartzConfiguration {
 
         return properties;
     }
+
+
 }
